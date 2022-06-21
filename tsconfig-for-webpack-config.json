@@ -1,0 +1,9 @@
+// webpack 설정에 맞게 별도의 TypeScript 설정 필요 -> https://webpack.kr/configuration/configuration-languages/
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "Node",
+    "target": "es5",
+    "esModuleInterop": true
+  }
+}
