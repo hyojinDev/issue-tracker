@@ -4,7 +4,6 @@ import Loading from './Loading';
 
 const ResultWrapper = styled.div`
   width: 100%;
-  /* height: 100%; */
   overflow: hidden;
   margin: 1rem auto 2rem;
   overflow-y: auto;
@@ -33,8 +32,8 @@ const TitleSection = styled.div`
     ${({ theme }) => theme.mixins.flexBox('row', 'center', 'center')};
     & > span {
       border-radius: 2em;
-      color: #bbb;
-      border: 1px solid #bbb;
+      color: ${({ theme }) => theme.color.lightGray};
+      border: 1px solid ${({ theme }) => theme.color.lightGray};;
       padding: 2px 7px;
       font-size: 12px;
       font-weight: 500;

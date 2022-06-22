@@ -13,7 +13,7 @@ const GlobalStyle = createGlobalStyle`
     -webkit-touch-callout:none;
   }
   body {
-	  background-color: #060d17;
+	  background-color: rgba(0,0,0,1);
     width: 100vw;
     color: #bbb;
   }

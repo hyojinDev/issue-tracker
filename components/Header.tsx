@@ -4,9 +4,16 @@ import styled from 'styled-components';
 const NavBar = styled.div`
   position: fixed;
   top: 0;
+  z-index: 999;
   width: 100%;
   height: 55px;
-  background-color: ${({ theme }) => theme.color.navy};
+  border-bottom: 1px solid ${({ theme }) => theme.color.gray};;
+  background-color: ${({ theme }) => theme.color.black100};
+	/* for iPhone */
+	-webkit-backdrop-filter: saturate(180%) blur(15px);
+	-moz-backdrop-filter: saturate(180%) blur(15px);
+	-o-backdrop-filter: saturate(180%) blur(15px);
+	backdrop-filter: saturate(180%) blur(15px);
   padding: 0.25rem 1rem;
   & > div {
     height: 100%;
