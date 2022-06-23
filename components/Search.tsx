@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const Title = styled.h2`
@@ -33,14 +33,9 @@ const SearchIcon = styled.div`
   }
 `;
 
-const Search = () => {
-  const [value, setValue] = useState('');
+const Search = (props: any) => {
 
-  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)
-
-  const searchRepoHandler = async () => {
-    if (!Boolean(value)) return;
-  }
+  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => props.setValue(e.target.value)
 
   return (
     <div>
@@ -52,11 +47,11 @@ const Search = () => {
             type='text'
             placeholder='Repository Name을 입력해주세요.'
             onChange={inputChangeHandler}
-            onKeyPress={(e) => e.key === 'Enter' ? searchRepoHandler() : false}
-            value={value}
+            onKeyPress={(e) => e.key === 'Enter' ? props.searchRepoHandler() : false}
+            value={props.value}
             autoComplete='off'
           />
-          <SearchIcon onClick={searchRepoHandler}>
+          <SearchIcon onClick={props.searchRepoHandler}>
             <input type='submit' value='검색' />
           </SearchIcon>
         </label>

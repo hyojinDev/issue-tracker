@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { getAllRepo, getCurrentRepo } from '@utils/api';
+import { getAllRepo } from '@utils/api';
 import Search from '@components/Search';
 import SearchResult from '@components/SearchResult';
 import styled from 'styled-components';
+import useSWR from 'swr';
 
 const Wrapper = styled.div`
   max-width: 1280px;
@@ -10,26 +11,28 @@ const Wrapper = styled.div`
 `
 
 const App = () => {
-  const [loading, setLoading] = useState(true);
-  const [searchList, setSearchList] = useState([]);
+  const [value, setValue] = useState('');
+  const { data } = useSWR('/getAllRepo', getAllRepo);
+  const [repoList, setRepoList] = useState(data?.data || []);
 
   useEffect(() => {
-    getAllRepositories();
-  }, []);
-
-  const getAllRepositories = async () => {
-    setLoading(true);
-    const res = await getAllRepo();
-    if (res?.ok) {
-      setSearchList((prev) => prev.concat(res.data));
+    if (!Boolean(value) && data) {
+      setRepoList(data?.data);
+      return;
+    } else {
+      searchRepoHandler();
     }
-    setLoading(false);
+  }, [value, data]);
+
+  const searchRepoHandler = () => {
+    const filteredRepo = data?.data.filter((item: any) => item.name.indexOf(value) !== -1 ? item : false);
+    setRepoList((prev: any) => filteredRepo);
   }
 
   return (
     <Wrapper>
-      <Search />
-      <SearchResult searchList={searchList} loading={loading} />
+      <Search value={value} setValue={setValue} dataList={repoList} searchRepoHandler={searchRepoHandler} />
+      <SearchResult dataList={repoList} />
     </Wrapper>
   )
 }

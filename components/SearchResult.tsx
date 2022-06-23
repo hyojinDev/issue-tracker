@@ -98,31 +98,31 @@ const SearchResult = (props: any) => {
   const dropDownHandler = (idx: number) => idx === current ? setCurrent(-1) : setCurrent(idx)
 
   return (
-    <ResultWrapper>
-      {props.loading ? (
-        <Loading />
-      ) : (
-        Boolean(props.searchList.length) ? (
-          <ListWrap>
-            {props.searchList.map((list: any, idx: number) => (
-              <li key={list.id} onClick={() => dropDownHandler(idx)}>
-                <TitleSection>
-                  <strong>{list.name}<span>{list.visibility}</span></strong>
-                  <AccIcon isOpened={idx === current ? true : false}></AccIcon>
-                </TitleSection>
-                <DropdownWrap className={idx === current ? 'open' : 'close'}>
-                  <strong>sub menu</strong>
-                </DropdownWrap>
-              </li>
-            ))}
-          </ListWrap>
-        ) : (
-          <NoResultMsg>
-            <span>검색 결과가 없습니다.</span>
-          </NoResultMsg>
-        )
+    <>
+      {props.dataList && (
+        <ResultWrapper>
+          {Boolean(props.dataList.length) ? (
+            <ListWrap>
+              {props.dataList.map((list: any, idx: number) => (
+                <li key={list.id} onClick={() => dropDownHandler(idx)}>
+                  <TitleSection>
+                    <strong>{list.name}<span>{list.visibility}</span></strong>
+                    <AccIcon isOpened={idx === current ? true : false}></AccIcon>
+                  </TitleSection>
+                  <DropdownWrap className={idx === current ? 'open' : 'close'}>
+                    <strong>sub menu</strong>
+                  </DropdownWrap>
+                </li>
+              ))}
+            </ListWrap>
+          ) : (
+            <NoResultMsg>
+              <span>검색 결과가 없습니다.</span>
+            </NoResultMsg>
+          )}
+        </ResultWrapper>
       )}
-    </ResultWrapper>
+    </>
   )
 }
 

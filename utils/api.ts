@@ -1,5 +1,6 @@
 import { OK, GetRepoIssueProps, CreateIssueProps } from '@typings/api';
-import label from '../constants/label';
+import useSWR, { mutate } from 'swr';
+import { BareFetcher, PublicConfiguration } from 'swr/dist/types';
 const { Octokit } = require('@octokit/core');
 
 const octokit = new Octokit({ auth: process.env.APIKEY });
@@ -9,17 +10,6 @@ const isNotOK = (data: any): OK => ({ ok: false, data });
 export const getAllRepo = async () => {
   try {
     const res = await octokit.request(`GET /users/hyojinDev/repos`);
-    if (res.status === 200) {
-      return await isOK(res.data)
-    };
-  } catch (err) {
-    return await isNotOK(err || 'Not Found');
-  }
-};
-
-export const getCurrentRepo = async (repoName: string) => {
-  try {
-    const res = await octokit.request(`GET /repos/hyojinDev/${repoName}`);
     if (res.status === 200) {
       return await isOK(res.data)
     };
