@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Loading from './Loading';
 
 const ResultWrapper = styled.div`
   width: 100%;
@@ -14,7 +13,7 @@ const ResultWrapper = styled.div`
 const ListWrap = styled.ul`
   & > li {
     width: 100%;
-    padding: 2rem 1rem;
+    padding: 2rem 1rem 1.3rem;
     border-bottom: 1px solid ${({ theme }) => theme.color.borderColor};
     cursor: pointer;
     transition: ease-in-out 0.2s all;
@@ -67,6 +66,7 @@ const AccIcon = styled.i<{ isOpened: boolean }>`
 `;
 
 const DropdownWrap = styled.div`
+  ${({ theme }) => theme.mixins.flexBox('row', 'flex-start', 'center')};
   &.close {
     opacity: 0;
     height: 0;
@@ -79,7 +79,20 @@ const DropdownWrap = styled.div`
     padding-top: 25px;
     transition: all 0.5s cubic-bezier(.42,.2,.08,1);
   }
-
+  & button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+    padding: 5px 16px;
+    background-color: #238636;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: ${({ theme }) => theme.color.white};
+    cursor: pointer;
+    z-index: 2;
+  }
 `;
 
 const NoResultMsg = styled.span`
@@ -90,12 +103,18 @@ const NoResultMsg = styled.span`
     color: ${({ theme }) => theme.color.borderColor};
   }
 `
-
-
 const SearchResult = (props: any) => {
   const [current, setCurrent] = useState(-1);
 
-  const dropDownHandler = (idx: number) => idx === current ? setCurrent(-1) : setCurrent(idx)
+  const dropDownHandler = (e: any, idx: number) => {
+    if (e.target.nodeName !== 'BUTTON') {
+      idx === current ? setCurrent(-1) : setCurrent(idx)
+    }
+  }
+
+  const IssueHandler = (type: number) => {
+    props.modalOpenHandler(true);
+  }
 
   return (
     <>
@@ -104,13 +123,14 @@ const SearchResult = (props: any) => {
           {Boolean(props.dataList.length) ? (
             <ListWrap>
               {props.dataList.map((list: any, idx: number) => (
-                <li key={list.id} onClick={() => dropDownHandler(idx)}>
+                <li key={list.id} onClick={(e) => dropDownHandler(e, idx)}>
                   <TitleSection>
                     <strong>{list.name}<span>{list.visibility}</span></strong>
                     <AccIcon isOpened={idx === current ? true : false}></AccIcon>
                   </TitleSection>
                   <DropdownWrap className={idx === current ? 'open' : 'close'}>
-                    <strong>sub menu</strong>
+                    <button onClick={() => IssueHandler(1)}>이슈 보기</button>
+                    <button onClick={() => IssueHandler(2)}>이슈 생성</button>
                   </DropdownWrap>
                 </li>
               ))}
